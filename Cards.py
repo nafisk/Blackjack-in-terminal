@@ -5,24 +5,30 @@ class Cards:
 
     # setup member variables
     def __init__(self):
+        # initialize member variables
         self.CARDS_IN_A_SUIT = 12
         self.all_cards = set()
         self.card_values = {}
 
-        # set values for all cards
-        self.set_card_values(self.card_values)
+        # create points map for all cards
+        self.set_card_values()
 
-    # creates a map of all cards and its values
-    def set_card_values(self, card_values):
-        f = open('card_values.json')
-        values = json.load(f)
-        print(values)
-        # for key in values:
-        # card_values[key] = values[key]
-        f.close()
-    #   return card_values
+        # create set of all cards
+        self.all_cards = set(self.card_values.keys())
 
+    # creates a points map from the json file
+    def set_card_values(self):
+        # load cards and their values from json file
+        try:
+            f = open('card_values.json')
+            self.card_values = json.load(f)[0]
+            f.close()
+        except:
+            print("Cards.py -> Error: Loading card_values.json")
 
-# call Cards class
-cards = Cards()
-print(cards.card_values)
+    # returns the point value of a card
+    def get_card_values(self, card):
+        try:
+            return self.card_values[card]
+        except:
+            return "Cards.py -> Error: Card not found"
