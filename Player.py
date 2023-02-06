@@ -6,9 +6,9 @@ class Player:
 
     # setup member variables
     def __init__(self, name, max_score):
-        self.name = name
-        self.hand = []
+        self.NAME = name
         self.MAX_SCORE = max_score
+        self.hand = []
         self.card_suite = Cards.Cards()
 
     # add card to player's hand
@@ -21,7 +21,7 @@ class Player:
 
     # get player's name
     def get_name(self):
-        return self.name
+        return self.NAME
 
     # get player's total score
     def get_score(self):
@@ -33,7 +33,7 @@ class Player:
             if card == 'A':
                 number_of_aces += 1
             else:
-                score += self.card_suite.get_card_value(card)
+                score += int(self.card_suite.get_card_values(card))
 
         # handle multiple aces in hand
         if number_of_aces > 0:
@@ -48,7 +48,7 @@ class Player:
         optimal_score = score
 
         # get all possible ace values
-        ace_points = self.card_suite.get_card_values('A').split('|')
+        ace_points = self.card_suite.get_card_values("A").split('|')
 
         # combination of ace values as a list // [[1, 11], [1, 11], ...]
         ace_list = number_of_aces * [list(map(int, ace_points))]
@@ -60,5 +60,26 @@ class Player:
 
         return optimal_score
 
+    # player score print with cards
+    def hand_with_score(self):
+        _ = ' '.join(self.hand)
+        return f'{self.NAME} has: {_} = {str(self.get_score())}'
 
-player = Player('Nafis', 21)
+    # for dealer score print with hidden cards
+    def hand_with_hidden_score(self):
+        _ = self.hand[1:]
+        # print('Player.py:', self.hand, '->', _)  # debug
+        unknowns = '  ? '*len(_) if len(_) > 0 else ''
+        return f'{self.NAME} has: {self.hand[0] + unknowns} = ?'
+
+    # reset player's hand
+    def reset_hand(self):
+        self.hand = []
+
+
+# 4 7 A = 12
+# player = Player('Player', 21)
+# player.add_card('4')
+# player.add_card('7')
+# player.add_card('A')
+# print(player.hand_with_score())

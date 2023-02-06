@@ -7,10 +7,10 @@ class Deck:
     # setup member variables
     def __init__(self):
         # initialize member variables
-        single_suite = Cards.Cards()
+        self.single_suite = Cards.Cards()
 
         # creating a deck of 52 cards
-        self.cards = list(single_suite.all_cards) * 4
+        self.cards = list(self.single_suite.all_cards) * 4
 
         # shuffles the deck
         self.shuffle()
@@ -26,3 +26,11 @@ class Deck:
     # get the top card from the deck
     def get_top_card(self):
         return self.cards.pop()
+
+    # reset deck
+    def reset_deck(self):
+        # creating a deck of 52 cards
+        self.cards = list(self.single_suite.all_cards) * 4
+
+        # shuffles the deck
+        self.shuffle()
