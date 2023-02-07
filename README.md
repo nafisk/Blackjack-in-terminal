@@ -42,24 +42,25 @@ python3 Main.py
   * Score calculating algorithm adjusts for all bust scores if rules and values were to change
   * Score calculating algorithm takes care of score without Aces, with all Aces, a mixture of regular and Ace cards and always produces the most optical result
 
+<br/>
+
+## 👽 Future improvements
+  * Refactor code to be able to handle multiple players
+  * Be able to take inputs for bust score
+  * Optimize dealer hits and stands so that it's as close to bust score as possible just like player
+  * Center all text and clear screen each turn
+  * Create actual card UI with text, both face up and face down
 
 <br/>
 
-## 😥 Trade-offs encountered
-Discussion of the trade-offs encountered during the programming process and how they were resolved.
-  * 
+## ✍️ Manual testing
+  * Manual unit tests were performed for each class by creating objects at the end of the file
+  * Test cases were written assess whether all functions performed as expected
+  * Error checks are done to deal with any read/write errors, invalid input errors, etc
+  * All classes and member functions passed all test casses
 
 <br/>
 
-## Future improvements
-What would be improved on the project given more time.
-
-<br/>
-
-## Manual testing
-A description of the manual tests run on the code.
-
-<br/>
-
-## Automated testing
-Instructions on how to run any automated tests created, if they exist.
+## 🧠 Automated testing
+  * No automatic testing was done in this case due to time constrants
+  * Given more time pytest would be a great solution to automate testing for all functions
