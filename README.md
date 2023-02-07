@@ -7,7 +7,7 @@
 
 ## 🚀 Getting Started
 
-Only requirement for this project is `python3`. To run the game, downlaod or clone the project, go to the project folder and then run the command
+Only requirement for this project is `python3`. To run the game, downlaod or clone the project, go to the project folder and then run the command in your terminal
 
 ```
 python3 Main.py
