@@ -68,18 +68,9 @@ class Player:
     # for dealer score print with hidden cards
     def hand_with_hidden_score(self):
         _ = self.hand[1:]
-        # print('Player.py:', self.hand, '->', _)  # debug
         unknowns = '  ? '*len(_) if len(_) > 0 else ''
         return f'{self.NAME} has: {self.hand[0] + unknowns} = ?'
 
     # reset player's hand
     def reset_hand(self):
         self.hand = []
-
-
-# 4 7 A = 12
-# player = Player('Player', 21)
-# player.add_card('4')
-# player.add_card('7')
-# player.add_card('A')
-# print(player.hand_with_score())

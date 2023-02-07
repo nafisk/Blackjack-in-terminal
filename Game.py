@@ -1,14 +1,17 @@
 from time import sleep
-import os
 from subprocess import call
 import Player
+import shutil
 import Deck
 import sys
+import os
 
 
 class Game:
 
+    # constructor
     def __init__(self):
+
         # assign member variables
         self.MAX_HIT_SCORE = 21
         self.DEALER_STAND_SCORE = 17
@@ -16,23 +19,29 @@ class Game:
         # get and set game info
         self.clear_screen()
         self.deck = Deck.Deck()
-        player_name = self.print_welcome_and_get_name()
-        self.player = Player.Player(player_name, self.MAX_HIT_SCORE)
+        self.player = Player.Player(
+            self.print_welcome_and_get_name(), self.MAX_HIT_SCORE)
         self.dealer = Player.Player('Dealer', self.MAX_HIT_SCORE)
 
         # start game
         self.play_blackjack()
 
+    # handles entire game loop
     def play_blackjack(self):
+
+        # clears screen before starting game
         self.clear_screen()
 
-        # game loop
+        # handles gameplay replay
         end_game = False
-        while end_game == False:
-            # clear screen
-            self.clear_screen()
 
-            print(f'Hi {self.player.get_name()}! Welcome To Blackjack!')
+        # main game loop
+        while end_game == False:
+
+            # clear screen and print welcome message
+            self.clear_screen()
+            self.print_centre(
+                f'Hi {self.player.get_name()}! Welcome To Blackjack!')
             print()
 
             # set player and dealer hands
@@ -51,7 +60,9 @@ class Game:
                 sleep(1)
 
                 # evaluate hit input, add card to hand, and check for bust
-                if player_input == 'H' or player_input == 'h':
+                if player_input == 'H' or player_input == 'h' or player_input == 'Hit' or player_input == 'hit':
+
+                    # add card from deck to player hand
                     self.player.add_card(self.deck.get_top_card())
 
                     # if card is exactly MAX_HIT_SCORE
@@ -63,19 +74,23 @@ class Game:
                         break
                     # if card is greater than MAX_HIT_SCORE (bust)
                     elif self.player.get_score() > self.MAX_HIT_SCORE:
-                        # announce dealer win and exit to replay
+                        # announce dealer loss and exit to replay
                         self.dealer_turn_print()
                         print('You busted! Dealer Wins!')
                         end_game = True
                         break
                     # if card is less than MAX_HIT_SCORE
                     else:
-                        # print and continue game
+                        # continue game
                         self.player_turn_print()
 
                 # evaluate stand input, exit to dealer turn
-                if player_input == 'S' or player_input == 's':
+                elif player_input == 'S' or player_input == 's':
                     break
+
+                # wrong input
+                else:
+                    print('Invalid input, please try again.')
 
                 # shuffle deck after each turn
                 self.shuffle_deck()
@@ -88,30 +103,41 @@ class Game:
 
                 # print turn and points
                 self.print_turn('Dealer\'s')
+
+                # dealer turn animation and score board
                 self.load_animation('_', 20, False)
                 print()
                 self.dealer_turn_print()
                 sleep(1)
+
                 # if dealer score is less than dealer stand score
                 if self.dealer.get_score() < self.DEALER_STAND_SCORE:
-                    # card card to dealers hand
+                    # add card to dealers hand
                     self.dealer.add_card(self.deck.get_top_card())
                     sleep(1)
+
+                # if dealer score is greater than dealer stand score
                 else:
+
                     # compare dealer and player scores
                     if self.dealer.get_score() > self.player.get_score() and self.dealer.get_score() <= self.MAX_HIT_SCORE:
+                        # dealer wins
                         self.clear_screen()
                         print('Dealer Wins!')
                         self.dealer_turn_print()
                         end_game = True
                         break
+
                     elif self.player.get_score() == self.dealer.get_score():
+                        # player and dealer tie
                         self.clear_screen()
                         print('It\'s a tie!')
                         self.dealer_turn_print()
                         end_game = True
                         break
                     else:
+
+                        # dealers score is lower than player score
                         self.clear_screen()
                         print('You Win! Dealer Busted!')
                         self.dealer_turn_print()
@@ -125,11 +151,13 @@ class Game:
             end_game = self.play_again()
             self.reset_hand_and_deck() if end_game is False else None
 
-        print('Thanks for playing!')
+        self.print_centre('Thanks for playing!')
 
+    # prints the turn of the current player
     def print_turn(self, player):
         print(f'\n{player} turn...')
 
+    # adds two cards to each player and dealer
     def set_initial_hand(self):
         self.shuffle_deck()
         self.deal_cards()
@@ -141,24 +169,29 @@ class Game:
         print('Starting hands dealt...')
         print()
 
+    # shuffles and randomizes deck
     def shuffle_deck(self):
         self.deck.shuffle()
         self.load_animation('Shuffling deck...', 20, False)
         sleep(1)
 
+    # dealing cards animation
     def deal_cards(self):
         self.load_animation('Dealing cards...', 20, False)
         sleep(1)
 
+    # score print with dealer cards hidden
     def player_turn_print(self):
         print(self.bordered(self.dealer.hand_with_hidden_score() +
               '\n' + self.player.hand_with_score()) + '\n')
 
+    # score print with dealer cards visible
     def dealer_turn_print(self):
         sleep(1)
         print(self.bordered(self.dealer.hand_with_score() +
               '\n' + self.player.hand_with_score()) + '\n')
 
+    # prints text with border around it
     def bordered(self, text):
         lines = text.splitlines()
         width = max(len(s) for s in lines)
@@ -168,6 +201,7 @@ class Game:
         res.append('└' + '─' * width + '┘')
         return '\n'.join(res)
 
+    # returns true if player wants to play again
     def play_again(self):
         print()
         _ = input('Would you like to play again? Yes(Y) or No(N) ')
@@ -175,21 +209,30 @@ class Game:
             return False
         return True
 
+    # clears the entire console
     def clear_screen(self):
         # clear screen for specific operating system
         sleep(1)
         _ = call('clear' if os.name == 'posix' else 'clear')
 
+    # prints welcome message and gets player name
     def print_welcome_and_get_name(self):
-        self.load_animation('~Welcome to Blackjack!~', 20)
+        # self.load_animation('~Welcome to Blackjack!~', 40)
+        self.print_centre('~Welcome to Blackjack!~')
         sleep(1)
         return input('Please enter your name: ')
 
+    # prints centered text
+    def print_centre(self, s, animation=False):
+        print(s.center(shutil.get_terminal_size().columns))
+
+    # resets the hand and deck
     def reset_hand_and_deck(self):
         self.player.reset_hand()
         self.dealer.reset_hand()
         self.deck.reset_deck()
 
+    # animation for loading
     def load_animation(self, msg, relative_time, clear_screen=True):
 
         # String to be displayed when the application is loading
