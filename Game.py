@@ -298,6 +298,3 @@ class Game:
             # for linux / Mac OS
             else:
                 os.system("clear")
-
-
-game = Game()
