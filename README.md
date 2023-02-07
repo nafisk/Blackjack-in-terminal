@@ -43,8 +43,8 @@ python3 Main.py
 - The code should be able to handle multiple players with little adjustment to the main game loop in the future
 - Scores need to be recounted each time it is displayed to get the most optimized score due to 1 / 11 condition
 - Bust and dealer max hit values should be easily changable from one place
-- Store card values are stored in a .json file so that card values could be edited with relative ease in the future
-- Use suttle animations and the sleep function in the correct to make the game feel more natural
+- Card values are stored in a .json file so that card values could be edited with relative ease in the future
+- Use suttle animations and the sleep function for delays to make the game feel more natural
 
 <br/>
 
