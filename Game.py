@@ -151,7 +151,7 @@ class Game:
             end_game = self.play_again()
             self.reset_hand_and_deck() if end_game is False else None
 
-        self.print_centre('Thanks for playing!')
+        self.print_centre('\n\n~Thanks for playing!~')
 
     # prints the turn of the current player
     def print_turn(self, player):
